@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <div class="navbar row">
+        <div class="col-7"></div>
+        <a class="nav-link btn btn-info col-3" href="/events">Events Dashboard</a>
+
+        <% if @user %>
+            <form class="col-2" action="/sessions/<%=@user.id%>" method="post">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="delete">
+            <input type="submit" class="btn btn-info" value="Log Out">
+            </form>
+        <% end %> 
+    </div>
+    <div class="col">
+        <% if flash[:errors] %>
+            <% flash[:errors].each do |error| %>
+                <div class="row">
+                    ***<%= error %>***
+                </div>
+            <% end %>
+        <% end %>
+        <form action="/users/<%= @user.id %>" method="post">
+            <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+            <input type="hidden" name="_method" value="patch">
+            <h1>Edit Your Profile</h1>
+            <div class="form-group">
+                <label for="First_name">First Name:</label>
+                <input class="form-control" type="text" id="First_name" name="user[first_name]" value="<%= @user.first_name %>">
+            </div>
+            <div class="form-group">
+                <label for="Last_name">Last Name:</label>
+                <input class="form-control" type="text" id="Last_name" name="user[last_name]" value="<%= @user.last_name %>">
+            </div>
+            <div class="form-group">
+                <label for="Email">Email:</label>
+                <input class="form-control" type="text" id="Email" name="user[email]" value="<%= @user.email %>">
+            </div>
+            <div class="form-group">
+                <label for="City">Location:</label>
+                <input class="form-control" type="text" id="City" name="user[city]" value="<%= @user.city %>">
+                <select class="form-control" name="user[state]" id="State">
+                    <option disabled selected value="<%= @user.state %>"><%= @user.state %></option>
+                    <option value="TX">TX</option>
+                    <option value="WA">WA</option>
+                    <option value="NY">NY</option>
+                </select>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Update Records">
+        </form>
+    </div>
+</div>
